@@ -68,6 +68,7 @@ def categories():
         return f.read() 
 
 if __name__ == "__main__":
-    mcp.run()
- 
+    mcp.run(transport="http", host="0.0.0.0", port=8000)
+
+# uv run fastmcp run .\src\mcp_server\main.py:mcp --transport http --host 0.0.0.0 --port 8000 
 # uv run fastmcp install claude-desktop .\src\mcp_server\main.py
