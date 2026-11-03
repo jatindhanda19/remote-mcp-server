@@ -1,0 +1,17 @@
+{
+  "Food": ["Breakfast", "Lunch", "Dinner", "Snacks", "Groceries", "Restaurant", "Tea/Coffee", "Fruits & Vegetables", "Online Delivery", "Sweets"],
+  "Transport": ["Auto", "Cab", "Taxi", "Bus", "Metro", "Train", "Fuel", "Parking", "Toll", "Vehicle Maintenance", "Flight"],
+  "Shopping": ["Clothing", "Footwear", "Accessories", "Electronics", "Gadgets", "Online Shopping", "Gifts"],
+  "Bills": ["Electricity", "Water", "Gas", "Internet", "Mobile Recharge", "DTH/Cable", "Insurance", "Loan EMI"],
+  "Housing": ["Rent", "Maintenance", "Repairs", "Furniture", "Household Supplies"],
+  "Education": ["Course", "Books", "Tuition", "Stationery", "Exam Fees"],
+  "Entertainment": ["Subscription", "Movies", "Games", "Events", "Outings"],
+  "Health": ["Gym", "Doctor", "Medicines", "Medical Tests", "Health Insurance"],
+  "Personal Care": ["Grooming", "Haircut", "Salon", "Skincare", "Hygiene Products"],
+  "Family": ["Kids", "Parents", "Pets", "Household Help"],
+  "Travel": ["Hotel", "Tickets", "Sightseeing", "Travel Food"],
+  "Savings & Investments": ["Savings", "Mutual Funds", "Stocks", "Fixed Deposit", "Emergency Fund"],
+  "Gifts & Donations": ["Gifts", "Charity", "Festivals"],
+  "Miscellaneous": ["Fees", "Fines", "Other"]
+}
+
