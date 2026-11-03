@@ -32,8 +32,21 @@ BASE_DIR = Path(__file__).resolve().parent
 # Default: ./data relative to the working directory.
 DB_DIR = Path(os.getenv("DATABASE_DIR", str(Path.cwd() / "data")))
 
+def _ensure_writable(directory: Path) -> None:
+    """Create the directory and prove we can write files in it.
+
+    mkdir(exist_ok=True) succeeds on an existing read-only directory, so we
+    also create and delete a probe file. SQLite needs to create the db file
+    plus -wal/-shm/-journal files next to it.
+    """
+    directory.mkdir(parents=True, exist_ok=True)
+    probe = directory / ".write_test"
+    probe.write_text("ok")
+    probe.unlink()
+
+
 try:
-    DB_DIR.mkdir(parents=True, exist_ok=True)
+    _ensure_writable(DB_DIR)
 except OSError as exc:
     if os.getenv("DATABASE_DIR"):
         # The configured path is wrong; fail loudly instead of hiding it.
@@ -46,7 +59,7 @@ except OSError as exc:
     import tempfile
 
     DB_DIR = Path(tempfile.gettempdir()) / "expense-tracker"
-    DB_DIR.mkdir(parents=True, exist_ok=True)
+    _ensure_writable(DB_DIR)
     logging.getLogger("expense-tracker").warning(
         "Default data dir not writable (%s). Using %s, which is NOT persistent. "
         "Set DATABASE_DIR to a persistent volume.",
@@ -89,7 +102,11 @@ def init_db():
     # WAL mode is persistent in the database file, so set it once here.
     conn = sqlite3.connect(str(DB_PATH), timeout=30)
     try:
-        conn.execute("PRAGMA journal_mode=WAL")
+        try:
+            conn.execute("PRAGMA journal_mode=WAL")
+        except sqlite3.OperationalError as exc:
+            # Some filesystems can't do WAL; the default journal still works.
+            log.warning("Could not enable WAL mode (%s); using default.", exc)
         conn.execute(
             """
             CREATE TABLE IF NOT EXISTS expenses (
